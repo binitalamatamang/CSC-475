@@ -1,0 +1,37 @@
+public class MainActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private RecipeAdapter recipeAdapter;
+    private List<Recipe> recipeList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    recyclerView = findViewById(R.id.recyclerView);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+    recipeList = getRecipes(); // Method to get the list of recipes
+    recipeAdapter = new RecipeAdapter(recipeList, recipe -> {
+    Intent intent = new Intent(MainActivity.this, RecipeDetailActivity.class);
+    intent.putExtra("recipe", recipe);
+    startActivity(intent);
+    });
+
+    recyclerView.setAdapter(recipeAdapter);
+
+    FloatingActionButton fabSearch = findViewById(R.id.fab_search);
+    fabSearch.setOnClickListener(v -> {
+    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+    startActivity(intent);
+    });
+    }
+
+    private List<Recipe> getRecipes() {
+        // Sample data for testing
+        List<Recipe> recipes = new ArrayList<>();
+            recipes.add(new Recipe("Spaghetti", "Delicious spaghetti with tomato sauce", "Ingredients list...", "Cooking instructions..."));
+            recipes.add(new Recipe("Pancakes", "Fluffy pancakes", "Ingredients list...", "Cooking instructions..."));
+            return recipes;
+            }
+            }
